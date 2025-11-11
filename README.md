@@ -1,60 +1,45 @@
-# Klasifikasi-Gambar-Mengunakan-Convolutional-Neural-Network-CNN
-
 # ☕ Analisis Perbandingan Arsitektur CNN untuk Deteksi Karat Daun Kopi
 
 ## 📖 Deskripsi Singkat
-Proyek ini bertujuan untuk mendeteksi **penyakit karat daun kopi** menggunakan pendekatan **Convolutional Neural Network (CNN)**. Penyakit ini, yang disebabkan oleh jamur *Hemileia vastatrix*, merupakan salah satu faktor utama rendahnya produktivitas kopi di Indonesia. Dengan deteksi otomatis berbasis citra, diharapkan sistem ini dapat membantu petani dalam mengenali penyakit lebih cepat dan akurat.
+Proyek ini mendeteksi **karat daun kopi** (Hemileia) menggunakan **Convolutional Neural Network (CNN)** untuk membantu deteksi dini kasus infeksi pada daun robusta.
 
 ---
 
 ## ⚙️ Masalah
-- Produksi kopi Indonesia masih tertinggal karena serangan *karat daun kopi*.
-- Penyakit ini bisa menyebabkan kerugian hingga **50% hasil panen**.
-- Diperlukan sistem deteksi otomatis berbasis gambar untuk identifikasi dini daun yang terinfeksi.
+- Karat daun mengurangi hasil panen hingga puluhan persen; identifikasi dini diperlukan untuk mitigasi.
+- Diperlukan sistem deteksi otomatis berbasis citra agar diagnosis lebih cepat dan konsisten.
 
 ---
 
 ## 🧠 Metode
-- Menggunakan **CNN (Convolutional Neural Network)** untuk klasifikasi daun kopi **sehat** dan **terinfeksi**.
-- Dataset diambil dari **Kaggle**, berjumlah **1.560 gambar** (769 terinfeksi, 791 sehat).
-- Data dibagi menjadi **80% train** dan **20% validation**.
-- Diterapkan **augmentasi data** (rotasi, flipping, rescaling, shifting) untuk meningkatkan generalisasi.
-- Tiga arsitektur CNN dibandingkan:
-  - 🧩 **ResNet101V2**
-  - ⚡ **MobileNetV2**
-  - 🔗 **DenseNet121**
-- Model dikompilasi menggunakan:
-  - Optimizer: `Adam`
-  - Loss Function: `Binary Crossentropy`
-  - Metrics: `Accuracy`, `Precision`, `Recall`, `F1-Score`
+- Dataset Kaggle: **1.560 gambar** (769 terinfeksi, 791 sehat).  
+- Split: **80% train / 20% validation** (1248 train / 312 val).  
+- Augmentasi: rescaling, rotasi, shifting, scaling, horizontal flip.  
+- Base models (pretrained ImageNet) diuji: **ResNet101V2, MobileNetV2, DenseNet121**.  
+- Top layers: Global pooling → Dense(512, ReLU) → Dropout(0.4) → Output(1, sigmoid).  
+- Kompilasi: `Adam`, loss `binary_crossentropy`.  
+- Training: **100 epochs**.  
+- Evaluasi: Akurasi, Precision, Recall, F1-score (per kelas dan keseluruhan).
 
 ---
 
-## 📊 Hasil
-| Model | Akurasi Validasi | Precision | Recall | F1-Score |
-|--------|------------------|-----------|---------|-----------|
-| ResNet101V2 | 89.45% | 0.91 | 0.87 | 0.89 |
-| MobileNetV2 | 85.55% | 0.89 | 0.80 | 0.84 |
-| **DenseNet121** | **92.19%** | **0.94** | **0.91** | **0.92** |
+## 📊 Hasil (lengkap — termasuk metrik per kelas)
 
-✅ **DenseNet121** terbukti memiliki performa terbaik dan direkomendasikan untuk implementasi deteksi karat daun kopi.
+**Akurasi pelatihan / validasi (ringkasan):**
+- ResNet101V2 — Train: **81.83%**, Val: **89.45%**.  
+- MobileNetV2 — Train: **85.50%**, Val: **85.55%**.  
+- DenseNet121 — Train: **86.88%**, Val: **92.19%**.  
 
----
+**Perbandingan metrik (Tabel 4.1 dalam makalah):**
 
-## 🧩 Kesimpulan
-Model **DenseNet121** dengan pendekatan **CNN** mampu mendeteksi karat daun kopi dengan akurasi tinggi (**92,19%**).  
-Metode ini berpotensi digunakan dalam sistem deteksi otomatis di sektor pertanian untuk meningkatkan produksi dan mendukung kesejahteraan petani kopi.
+| Model | Kelas | Akurasi (val) | Precision | Recall | F1-Score |
+|-------|-------|---------------:|----------:|-------:|---------:|
+| ResNet101V2 | Sehat | 0.8945 | 0.91 | 0.87 | 0.89 |
+| ResNet101V2 | Tidak Sehat | 0.8945 | 0.88 | 0.92 | 0.90 |
+| MobileNetV2 | Sehat | 0.8555 | 0.89 | 0.80 | 0.84 |
+| MobileNetV2 | Tidak Sehat | 0.8555 | 0.83 | 0.91 | 0.87 |
+| DenseNet121 | Sehat | 0.9219 | 0.91 | 0.94 | 0.92 |
+| DenseNet121 | Tidak Sehat | 0.9219 | 0.94 | 0.91 | 0.92 |
 
----
+**Kesimpulan singkat:** DenseNet121 unggul (akurasi validasi **92.19%**) dan menunjukkan metrik precision/recall/F1 lebih baik di kedua kelas, sehingga direkomendasikan untuk implementasi deteksi karat daun kopi.
 
-## 👥 Tim Peneliti
-- **Muhammad Rayhan Nuansa Adha** – Modelling, Metodologi, Kesimpulan  
-- **Nadia Sukesi Sianipar** – Preprocessing, Abstrak, Pendahuluan  
-- **Peksyaji** – Evaluasi Model, Hasil dan Diskusi  
-
----
-
-## 🏫 Universitas Indonesia  
-**Program Studi Statistika, Fakultas MIPA**  
-Mata Kuliah: *Analisis Data Tidak Terstruktur (SCST603106)*  
-Tahun: 2024
