@@ -15,22 +15,14 @@ Proyek ini mendeteksi **karat daun kopi** (Hemileia) menggunakan **Convolutional
 - Dataset Kaggle: **1.560 gambar** (769 terinfeksi, 791 sehat).  
 - Split: **80% train / 20% validation** (1248 train / 312 val).  
 - Augmentasi: rescaling, rotasi, shifting, scaling, horizontal flip.  
-- Base models (pretrained ImageNet) diuji: **ResNet101V2, MobileNetV2, DenseNet121**.  
-- Top layers: Global pooling → Dense(512, ReLU) → Dropout(0.4) → Output(1, sigmoid).  
-- Kompilasi: `Adam`, loss `binary_crossentropy`.  
-- Training: **100 epochs**.  
-- Evaluasi: Akurasi, Precision, Recall, F1-score (per kelas dan keseluruhan).
+- Base models (pretrained ImageNet) diuji: **ResNet101V2, MobileNetV2, DenseNet121**.   
+- Evaluasi: Akurasi, Precision, Recall, F1-score.
 
 ---
 
 ## 📊 Hasil (lengkap — termasuk metrik per kelas)
 
-**Akurasi pelatihan / validasi (ringkasan):**
-- ResNet101V2 — Train: **81.83%**, Val: **89.45%**.  
-- MobileNetV2 — Train: **85.50%**, Val: **85.55%**.  
-- DenseNet121 — Train: **86.88%**, Val: **92.19%**.  
-
-**Perbandingan metrik (Tabel 4.1 dalam makalah):**
+**Perbandingan metrik :**
 
 | Model | Kelas | Akurasi (val) | Precision | Recall | F1-Score |
 |-------|-------|---------------:|----------:|-------:|---------:|
